@@ -102,10 +102,10 @@ jobs:
           key: v1-dependency-cache-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
           paths:
             - ${VIRTUALENV_PATH}
-      - run:
-          name: verify git tag vs. version
-          command: |
-            python setup.py verify
+      # - run:
+      #     name: verify git tag vs. version
+      #     command: |
+      #       python setup.py verify
       - run:
           name: create package
           command: |
