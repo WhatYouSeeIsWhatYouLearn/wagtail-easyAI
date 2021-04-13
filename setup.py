@@ -11,16 +11,16 @@ with open(os.path.join(this_directory, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 
-class VerifyVersionCommand(install):
-    """Custom command to verify that the git tag matches our version"""
-    description = 'verify that the git tag matches our version'
+# class VerifyVersionCommand(install):
+#     """Custom command to verify that the git tag matches our version"""
+#     description = 'verify that the git tag matches our version'
 
-    def run(self):
-        tag = os.getenv('CIRCLE_TAG')
+#     def run(self):
+#         tag = os.getenv('CIRCLE_TAG')
 
-        if tag != __version__:
-            info = f"Git tag: {tag} does not match the version of this app: {__version__}"
-            sys.exit(info)
+#         if tag != __version__:
+#             info = f"Git tag: {tag} does not match the version of this app: {__version__}"
+#             sys.exit(info)
 
 
 setup(
@@ -51,7 +51,7 @@ setup(
     python_requires=">=3.5",
     extras_require={
     },
-    cmdclass={
-        'verify': VerifyVersionCommand,
-    }
+    # cmdclass={
+    #     'verify': VerifyVersionCommand,
+    # }
 )
