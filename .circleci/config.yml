@@ -4,11 +4,6 @@ workflows:
     jobs:
       - build
       - test-python-install:
-          name: test-python-install-3.4
-          version: "3.4"
-          requires:
-            - build
-      - test-python-install:
           name: test-python-install-3.5
           version: "3.5"
           requires:
@@ -36,7 +31,6 @@ workflows:
       - deploy:
           requires:
             - build
-            - test-python-install-3.4
             - test-python-install-3.5
             - test-python-install-3.6
             - test-python-install-3.7
@@ -61,7 +55,7 @@ jobs:
             make dev
       - run:
           name: "Sets virtualenv path"
-          command: echo 'export VIRTUALENV_PATH=`pipenv --virtualenv`' >> $BASH_ENV
+          # command: echo 'export VIRTUALENV_PATH=`pipenv --virtualenv`' >> $BASH_ENV
       - save_cache:
           key: v1-dependency-cache-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
           paths:

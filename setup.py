@@ -1,6 +1,7 @@
 import os
 import sys
 from setuptools import find_packages, setup
+from setuptools.command.install import install
 
 from wagtail_automl import __version__
 
@@ -48,7 +49,7 @@ setup(
     install_requires=["Wagtail>=2.4,<3",
                       "TPOT>=0.11",
                       "wagtail-generic-chooser>=0.1.0",],
-    python_requires=">=3"
+    python_requires=">=3.5"
     extras_require={
     },
     cmdclass={

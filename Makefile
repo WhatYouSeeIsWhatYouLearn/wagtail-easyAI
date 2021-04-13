@@ -12,7 +12,7 @@ clean:
 
 dev:
 	# pip install pipenv
-	pipenv install twine wagtail tpot wagtail-generic-chooser
+	pipenv install twine wagtail tpot wagtail-generic-chooser coverage
 
 docs:
 	$(MAKE) -C docs html
