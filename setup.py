@@ -1,11 +1,27 @@
-from os import path
+import os
+import sys
 from setuptools import find_packages, setup
+
 from wagtail_automl import __version__
 
 
 this_directory = path.abspath(path.dirname(__file__))
-with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
+with open(os.path.join(this_directory, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
+
+
+class VerifyVersionCommand(install):
+    """Custom command to verify that the git tag matches our version"""
+    description = 'verify that the git tag matches our version'
+
+    def run(self):
+        tag = os.getenv('CIRCLE_TAG')
+
+        if tag != __version__:
+            info = f"Git tag: {tag} does not match the version of this app: {__version__}"
+            )
+            sys.exit(info)
+
 
 setup(
     name="wagtail-automl",
@@ -24,22 +40,18 @@ setup(
         "Intended Audience :: Developers",
         "License :: OSI Approved :: GPL 3 License",
         "Operating System :: OS Independent",
-        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3 :: Only",
         "Framework :: Django :: 3.1",
         "Framework :: Wagtail :: 2",
     ],
-    install_requires=["Django>=2.2,<3.2",
-                      "Wagtail>=2.1,<3",
+    keywords="wagtail machine-learning automl",
+    install_requires=["Wagtail>=2.4,<3",
                       "TPOT>=0.11",
-                      "WagtailModelChooser>=0.3.0",],
+                      "wagtail-generic-chooser>=0.1.0",],
+    python_requires=">=3"
     extras_require={
-        # "testing": ["dj-database-url==0.5.0", "freezegun==0.3.15"],
-        # "documentation": [
-        #     "mkdocs==1.1.2",
-        #     "mkdocs-material==6.2.8",
-        #     "mkdocs-mermaid2-plugin==0.5.1",
-        #     "mkdocstrings==0.14.0",
-        #     "mkdocs-include-markdown-plugin==2.8.0",
-        # ],
     },
+    cmdclass={
+        'verify': VerifyVersionCommand,
+    }
 )
