@@ -55,7 +55,7 @@ jobs:
             make dev
       - run:
           name: "Sets virtualenv path"
-          # command: echo 'export VIRTUALENV_PATH=`pipenv --virtualenv`' >> $BASH_ENV
+          command: echo 'export VIRTUALENV_PATH=`pipenv --virtualenv`' >> $BASH_ENV
       - save_cache:
           key: v1-dependency-cache-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
           paths:
