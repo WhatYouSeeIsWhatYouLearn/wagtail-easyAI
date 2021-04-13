@@ -11,7 +11,6 @@ clean:
 	rm -rf dist/*
 
 dev:
-	# pip install pipenv
 	pipenv install twine wagtail tpot wagtail-generic-chooser coverage
 
 docs:
@@ -21,5 +20,5 @@ package:
 	python setup.py sdist bdist_wheel
 
 test:
-	pipenv coverage run -m unittest discover
-	pipenv coverage html
+	pipenv run coverage run -m unittest discover
+	pipenv run coverage html
