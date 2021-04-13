@@ -12,7 +12,7 @@ clean:
 
 dev:
 	# pip install pipenv
-	pipenv install twine wagtail tpot wagtail-generic-chooser coverage
+	pipenv install twine wagtail tpot wagtail-generic-chooser
 
 docs:
 	$(MAKE) -C docs html
@@ -21,5 +21,6 @@ package:
 	python setup.py sdist bdist_wheel
 
 test:
+	pipenv install coverage
 	coverage run -m unittest discover
 	coverage html
