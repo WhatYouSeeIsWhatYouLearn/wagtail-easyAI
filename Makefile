@@ -11,8 +11,7 @@ clean:
 	rm -rf dist/*
 
 dev:
-	pip install pipenv
-	pipenv shell
+	# pip install pipenv
 	pipenv install twine wagtail tpot wagtail-generic-chooser
 
 docs:

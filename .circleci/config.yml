@@ -66,12 +66,6 @@ jobs:
           key: v1-dependency-cache-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
           paths:
             - ${VIRTUALENV_PATH}
-      - run:
-          name: run tests
-          command: |
-            make test
-      - store_artifacts:
-          path: htmlcov/
 
   test-python-install:
     parameters:
