@@ -6,7 +6,7 @@ from setuptools.command.install import install
 from wagtail_automl import __version__
 
 
-this_directory = path.abspath(path.dirname(__file__))
+this_directory = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(this_directory, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
@@ -20,7 +20,6 @@ class VerifyVersionCommand(install):
 
         if tag != __version__:
             info = f"Git tag: {tag} does not match the version of this app: {__version__}"
-            )
             sys.exit(info)
 
 
@@ -49,7 +48,7 @@ setup(
     install_requires=["Wagtail>=2.4,<3",
                       "TPOT>=0.11",
                       "wagtail-generic-chooser>=0.1.0",],
-    python_requires=">=3.5"
+    python_requires=">=3.5",
     extras_require={
     },
     cmdclass={
