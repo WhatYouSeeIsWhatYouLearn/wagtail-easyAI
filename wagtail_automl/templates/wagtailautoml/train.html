@@ -1,0 +1,37 @@
+<style>
+  .container{
+    padding: 0 25px 25px 25px;
+  }
+  .header{
+    background: #007D7E;
+    color: white;
+    padding: 25px;
+  }
+  .sub-header{
+    color: #007D7E;
+    font-weight: bold;
+  }
+</style>
+
+{% extends "modeladmin/index.html" %}
+
+{% block content %}
+  <h2 class="header">Scoring metric: {{ instance.model_scoring_metric }}</h2>
+  <div class="container">
+  {% for feature_name, feature_results in instance.train_results.items %}
+    <p><b>Results for feature:</b> {{ feature_name }}:</p>
+    <p><b>Accuracy score:</b> {{ feature_results.score }}</p>
+    <p><b>Train time:</b> {{ feature_results.train_time }}</p>
+    <p><b>Final Pipeline:</b>> {{ feature_results.pipeline }}</p>
+  {% endfor %}
+
+  {% for error in instance.train_results.errors %}
+    <p>Error in training: {{ error }}</p>
+    <br>
+  {% endfor %}
+  {% for warning in instance.train_results.warnings %}
+    <p>Warning in training: {{ warning }}</p>
+    <br>
+  {% endfor %}
+</div>
+{% endblock content %}
