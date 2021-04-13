@@ -3,26 +3,26 @@ workflows:
   build_test_deploy:
     jobs:
       - build
-      - test-python-install:
-          name: test-python-install-3.5
-          version: "3.5"
-          requires:
-            - build
-      - test-python-install:
-          name: test-python-install-3.6
-          version: "3.6"
-          requires:
-            - build
-      - test-python-install:
-          name: test-python-install-3.7
-          version: "3.7"
-          requires:
-            - build
-      - test-python-install:
-          name: test-python-install-3.8
-          version: "3.8"
-          requires:
-            - build
+      # - test-python-install:
+      #     name: test-python-install-3.5
+      #     version: "3.5"
+      #     requires:
+      #       - build
+      # - test-python-install:
+      #     name: test-python-install-3.6
+      #     version: "3.6"
+      #     requires:
+      #       - build
+      # - test-python-install:
+      #     name: test-python-install-3.7
+      #     version: "3.7"
+      #     requires:
+      #       - build
+      # - test-python-install:
+      #     name: test-python-install-3.8
+      #     version: "3.8"
+      #     requires:
+      #       - build
       - test-python-install:
           name: test-python-install-3.9
           version: "3.9"
@@ -31,10 +31,10 @@ workflows:
       - deploy:
           requires:
             - build
-            - test-python-install-3.5
-            - test-python-install-3.6
-            - test-python-install-3.7
-            - test-python-install-3.8
+            # - test-python-install-3.5
+            # - test-python-install-3.6
+            # - test-python-install-3.7
+            # - test-python-install-3.8
             - test-python-install-3.9
           filters:
             branches:
