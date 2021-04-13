@@ -36,12 +36,12 @@ setup(
     include_package_data=True,
     license="GPL 3",
     classifiers=[
-        # "Development Status :: 4 - Beta",
+        "Development Status :: 1 - Planning"
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: GPL 3 License",
+        "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)"
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3 :: Only",
-        "Framework :: Django :: 3.1",
+        "Framework :: Django :: 3",
         "Framework :: Wagtail :: 2",
     ],
     keywords="wagtail machine-learning automl",
