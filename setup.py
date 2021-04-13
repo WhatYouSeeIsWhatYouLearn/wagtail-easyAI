@@ -41,7 +41,7 @@ setup(
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3 :: Only",
-        "Framework :: Django :: 3",
+        "Framework :: Django :: 3.1",
         "Framework :: Wagtail :: 2",
     ],
     keywords="wagtail machine-learning automl",
