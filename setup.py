@@ -36,7 +36,7 @@ setup(
     include_package_data=True,
     license="GPL 3",
     classifiers=[
-        "Development Status :: 1 - Planning"
+        "Development Status :: 1 - Planning",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)"
         "Operating System :: OS Independent",
