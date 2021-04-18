@@ -1,7 +1,7 @@
 [![License](https://img.shields.io/github/license/WhatYouSeeIsWhatYouLearn/wagtail-easyAI.svg)](https://github.com/WhatYouSeeIsWhatYouLearn/wagtail-easyAI/blob/main/LICENSE)
 [![Documentation](https://readthedocs.org/projects/wagtail-easyAI/badge/?version=latest)](https://wagtail-easyAI.readthedocs.io/en/latest/?badge=latest)
-[![Build Status](https://travis-ci.com/WhatYouSeeIsWhatYouLearn/wagtail-easyAI.svg?branch=main)](https://travis-ci.com/WhatYouSeeIsWhatYouLearn/frontend-implementation)
-[![Maintainability](https://api.codeclimate.com/v1/badges/40330047d6bb97a433c6/maintainability)](https://codeclimate.com/github/WhatYouSeeIsWhatYouLearn/wagtail-easyAI/maintainability)
+[![Build Status](https://circleci.com/git/WhatYouSeeIsWhatYouLearn/wagtail-automl.svg?style=svg)](https://app.circleci.com/pipelines/github/WhatYouSeeIsWhatYouLearn/wagtail-easyAI)
+[![Maintainability](https://api.codeclimate.com/v1/badges/7d78cd0fd3ed065645b7/maintainability)](https://codeclimate.com/github/WhatYouSeeIsWhatYouLearn/wagtail-automl/maintainability)
 [![Linting](https://github.com/WhatYouSeeIsWhatYouLearn/wagtail-easyAI/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
 
