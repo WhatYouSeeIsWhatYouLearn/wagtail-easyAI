@@ -1,8 +1,8 @@
-[![License](https://img.shields.io/github/license/WhatYouSeeIsWhatYouLearn/frontend-implementation.svg)](https://github.com/WhatYouSeeIsWhatYouLearn/StrapDown.js/blob/main/LICENSE)
-[![Documentation](https://readthedocs.org/projects/frontend-implementation/badge/?version=latest)](https://frontend-implementation.readthedocs.io/en/latest/?badge=latest)
-[![Build Status](https://travis-ci.com/WhatYouSeeIsWhatYouLearn/frontend-implementation.svg?branch=main)](https://travis-ci.com/WhatYouSeeIsWhatYouLearn/frontend-implementation)
-[![Maintainability](https://api.codeclimate.com/v1/badges/40330047d6bb97a433c6/maintainability)](https://codeclimate.com/github/WhatYouSeeIsWhatYouLearn/frontend-implementation/maintainability)
-[![Linting](https://github.com/WhatYouSeeIsWhatYouLearn/frontend-implementation/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
+[![License](https://img.shields.io/github/license/WhatYouSeeIsWhatYouLearn/wagtail-easyAI.svg)](https://github.com/WhatYouSeeIsWhatYouLearn/wagtail-easyAI/blob/main/LICENSE)
+[![Documentation](https://readthedocs.org/projects/wagtail-easyAI/badge/?version=latest)](https://wagtail-easyAI.readthedocs.io/en/latest/?badge=latest)
+[![Build Status](https://travis-ci.com/WhatYouSeeIsWhatYouLearn/wagtail-easyAI.svg?branch=main)](https://travis-ci.com/WhatYouSeeIsWhatYouLearn/frontend-implementation)
+[![Maintainability](https://api.codeclimate.com/v1/badges/40330047d6bb97a433c6/maintainability)](https://codeclimate.com/github/WhatYouSeeIsWhatYouLearn/wagtail-easyAI/maintainability)
+[![Linting](https://github.com/WhatYouSeeIsWhatYouLearn/wagtail-easyAI/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
 
 # Overview
@@ -10,7 +10,7 @@
 
 # Documentation
 
-Find our work-in-progress documentation at https://frontend-implementation.readthedocs.io/en/latest/?
+Find our work-in-progress documentation at https://wagtail-easyAI.readthedocs.io/en/latest/?
 
 # For Contributors
 We would love extra help! We are accepting pull requests and issues, and our
