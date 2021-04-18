@@ -1,9 +1,9 @@
 import os
 import sys
-from setuptools import find_packages, setup
+from setuptools import setup
 from setuptools.command.install import install
 
-from wagtail_automl import __version__
+from wagtail_easyai import __version__
 
 
 this_directory = os.path.abspath(os.path.dirname(__file__))
@@ -24,15 +24,15 @@ with open(os.path.join(this_directory, "README.md"), encoding="utf-8") as f:
 
 
 setup(
-    name="wagtail-automl",
+    name="wagtail-easyAI",
     version=__version__,
     description="Automated machine learning for Wagtail CMS",
     long_description=long_description,
     long_description_content_type='text/markdown',
     author="Finn Burmeister-Morton",
     # author_email="",
-    url="https://github.com/whatyouseeiswhatyoulearn/wagtail-automl",
-    packages=find_packages(),
+    url="https://github.com/whatyouseeiswhatyoulearn/wagtail-easyAI",
+    packages=["wagtail_easyai"],
     include_package_data=True,
     license="GPL 3",
     classifiers=[

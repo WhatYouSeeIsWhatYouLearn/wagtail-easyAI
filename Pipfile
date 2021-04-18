@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[[source]]
+name = "devpi"
+url = "http://localhost:3141/baseuser/dev"
+verify_ssl = false
+username = "baseuser"
+password = "baseUser123$"
+
+[packages]
+tpot = "*"
+numpy = "*"
+pandas = "*"
+wagtail = "*"
+wagtail-generic-chooser = "*"
+devpi-server = "*"
+devpi-client = "*"
+wagtail-easyai = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"

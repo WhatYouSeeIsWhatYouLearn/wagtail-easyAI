@@ -1,0 +1,36 @@
+<style>
+  .container{
+    padding: 0 25px 25px 25px;
+  }
+  .header{
+    background: #007D7E;
+    color: white;
+    padding: 25px;
+  }
+  .sub-header{
+    color: #007D7E;
+    font-weight: bold;
+  }
+</style>
+
+{% extends "modeladmin/index.html" %}
+
+{% block content %}
+  <h2 class="header">Prediction results</h2>
+  
+  <div class="container">
+  {% for row in instance.latest_prediction.iterrows %}
+    <p>{{ row }}</p>
+  {% endfor %}
+
+  {% for error in instance.train_results.errors %}
+    <p>Error in predicting: {{ error }}</p>
+    <br>
+  {% endfor %}
+  {% for warning in instance.train_results.warnings %}
+    <p>Warning in predicting: {{ warning }}</p>
+    <br>
+  {% endfor %}
+  <br>
+</div>
+{% endblock content %}
