@@ -27,9 +27,8 @@ from tpot import TPOTClassifier, TPOTRegressor
 def validate_proportion(value):
     if value >= 1 or value <= 0:
         raise ValidationError(
-                f"{value} is not a proportion (between 0 and 1)",
-                params={"value": value}
-                )
+            f"{value} is not a proportion (between 0 and 1)", params={"value": value}
+        )
 
 
 class MLProject(models.Model):
@@ -37,66 +36,72 @@ class MLProject(models.Model):
 
     # the data
     train_x_data = models.ForeignKey(
-            "wagtaildocs.Document",
-            null=True,
-            on_delete=models.SET_NULL,
-            related_name="mltrainydata",
-            )
+        "wagtaildocs.Document",
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="mltrainydata",
+    )
     train_y_data = models.ForeignKey(
-            "wagtaildocs.Document",
-            null=True,
-            on_delete=models.SET_NULL,
-            related_name="mltrainxdata",
-            )
+        "wagtaildocs.Document",
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="mltrainxdata",
+    )
     predict_data = models.ForeignKey(
-            "wagtaildocs.Document",
-            null=True, blank=True,
-            on_delete=models.SET_NULL,
-            related_name="mlpredictdata",
-            )
+        "wagtaildocs.Document",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="mlpredictdata",
+    )
 
     # the pipeline
-    preprocessing = StreamField((
-        ("knn_imputer", ml_blocks.KNNImputerBlock()),
-        ), null=True, blank=True)
+    preprocessing = StreamField(
+        (("knn_imputer", ml_blocks.KNNImputerBlock()),), null=True, blank=True
+    )
 
-    training = StreamField((
-        ("tpot_classifier", ml_blocks.TPOTClassifierBlock()),
-        ), null=True)
+    training = StreamField(
+        (("tpot_classifier", ml_blocks.TPOTClassifierBlock()),), null=True
+    )
 
     # train/test split
-    train_proportion = models.FloatField(help_text="Proportion of training data that should be used for training (complement will be used for testing)",
-            default=0.8, validators=[validate_proportion])
+    train_proportion = models.FloatField(
+        help_text="Proportion of training data that should be used for training (complement will be used for testing)",
+        default=0.8,
+        validators=[validate_proportion],
+    )
 
     # model scorer
     model_scoring_metric_choices = (
-            ("accuracy", "Accuracy"),
-            ("balanced_accuracy", "Balanced Accuracy"),
-            )
-    model_scoring_metric = models.CharField(max_length=100,
-            choices=model_scoring_metric_choices,
-            default="accuracy")
+        ("accuracy", "Accuracy"),
+        ("balanced_accuracy", "Balanced Accuracy"),
+    )
+    model_scoring_metric = models.CharField(
+        max_length=100, choices=model_scoring_metric_choices, default="accuracy"
+    )
 
     # random seed (for reproducibility)
-    random_seed = models.IntegerField(help_text="The random seed to use when training. Enter a value for reproducibility, or leave blank for a truly random seed",
-            blank=True, null=True)
+    random_seed = models.IntegerField(
+        help_text="The random seed to use when training. Enter a value for reproducibility, or leave blank for a truly random seed",
+        blank=True,
+        null=True,
+    )
 
     # non-editable project fields
     is_fitted = models.BooleanField(default=False)
     # train_results = GenericField(val={})
-    # latest_prediction = GenericField(val=None) 
-
+    # latest_prediction = GenericField(val=None)
 
     panels = (
-        FieldPanel('title'),
-        DocumentChooserPanel('train_x_data'),
-        DocumentChooserPanel('train_y_data'),
-        DocumentChooserPanel('predict_data'),
+        FieldPanel("title"),
+        DocumentChooserPanel("train_x_data"),
+        DocumentChooserPanel("train_y_data"),
+        DocumentChooserPanel("predict_data"),
         StreamFieldPanel("preprocessing"),
         StreamFieldPanel("training"),
         FieldPanel("train_proportion"),
         FieldPanel("model_scoring_metric"),
-        FieldPanel("random_seed")
+        FieldPanel("random_seed"),
     )
 
     # overrides save function to ensure that there is a directory for this
@@ -121,7 +126,7 @@ class MLProject(models.Model):
     @property
     def output_dir(cls):
         return os.path.join(settings.ML_MODEL_ROOT, str(cls.id))
-    
+
     @staticmethod
     def _get_df(data, data_id, **kwargs):
         return Document.objects.get(pk=data_id).file
@@ -167,9 +172,13 @@ class MLProject(models.Model):
 
     @property
     def column_statistics(cls):
-        data = pd.concat([cls.x_train_df_as_csv,
-                          cls.y_train_df_as_csv,],
-                          axis=1)
+        data = pd.concat(
+            [
+                cls.x_train_df_as_csv,
+                cls.y_train_df_as_csv,
+            ],
+            axis=1,
+        )
         return_dict = {}
         categorical_cols = data.select_dtypes(include=["object", "bool"])
         for col_name in data:
@@ -178,15 +187,14 @@ class MLProject(models.Model):
             if col_name in categorical_cols:
                 mode = col_data.mode()
                 col_stats = {"mode": mode}
-                col_stats["type"] = "categorical" 
+                col_stats["type"] = "categorical"
             # numeric stats
             else:
                 mean = col_data.mean()
                 median = col_data.mean()
-                col_stats = {"mean": mean,
-                             "median": median}
-                col_stats["type"] = "continuous" 
-            return_dict.update({col_name:col_stats})
+                col_stats = {"mean": mean, "median": median}
+                col_stats["type"] = "continuous"
+            return_dict.update({col_name: col_stats})
         return return_dict
 
     @property
@@ -196,22 +204,22 @@ class MLProject(models.Model):
 
         categorical_columns, numeric_columns = cls.x_types
 
-        # each pipe stage 
+        # each pipe stage
         pipe_streams = (
-                cls.pipeline_object.data_cleaning,
-                cls.pipeline_object.preprocessing,
-                cls.pipeline_object.training,
-                )
+            cls.pipeline_object.data_cleaning,
+            cls.pipeline_object.preprocessing,
+            cls.pipeline_object.training,
+        )
 
         # project-specific args that relate to each step of the ML process
         data_cleaning_args = {}
         preprocessing_args = {}
         training_args = {"scoring": cls.model_scoring_metric}
         pipe_stream_args = (
-                data_cleaning_args,
-                preprocessing_args,
-                training_args,
-                )
+            data_cleaning_args,
+            preprocessing_args,
+            training_args,
+        )
 
         for pipe_stream, extra_args in zip(pipe_streams, pipe_stream_args):
             # the blocks in this pipeline
@@ -238,24 +246,32 @@ class MLProject(models.Model):
                 # else if it is for atleast one type of data, it uses a column
                 # transformer to only operate on that data
                 elif for_categorical or for_numeric:
-                    cols_to_transform = categorical_columns if for_categorical else numeric_columns
+                    cols_to_transform = (
+                        categorical_columns if for_categorical else numeric_columns
+                    )
                     transformer = [pipeline_arg + tuple([cols_to_transform])]
-                    column_transformer = ColumnTransformer(transformers=transformer,
-                                                           remainder="passthrough")
-                    pipe_steps.append(("column_transformer_" + obj_name, column_transformer))
+                    column_transformer = ColumnTransformer(
+                        transformers=transformer, remainder="passthrough"
+                    )
+                    pipe_steps.append(
+                        ("column_transformer_" + obj_name, column_transformer)
+                    )
 
         # creates a scikit-learn pipeline and returns it
         return Pipeline(pipe_steps)
 
     def train_model(self):
-        return_dict = {"errors":[], "warnings":[], "pipelines":{}}
+        return_dict = {"errors": [], "warnings": [], "pipelines": {}}
 
         # loading the input data
         try:
             x_data = self.x_train_df_as_csv
             y_data = self.y_train_df_as_csv
         except Exception as e:
-            error_msg = "Error loading input data, please ensure that the data is properly formatted:" + str(e)
+            error_msg = (
+                "Error loading input data, please ensure that the data is properly formatted:"
+                + str(e)
+            )
             return_dict["errors"].append(error_msg)
             return return_dict
 
@@ -263,7 +279,10 @@ class MLProject(models.Model):
         try:
             base_pipe = self.pipeline
         except Exception as e:
-            error_msg = "Error loading the pipeline. This is most likely a server fault, so please let the server admin know!" + str(e)
+            error_msg = (
+                "Error loading the pipeline. This is most likely a server fault, so please let the server admin know!"
+                + str(e)
+            )
             return_dict["errors"].append(error_msg)
             return return_dict
 
@@ -281,10 +300,14 @@ class MLProject(models.Model):
 
             # gets the train/test split
             try:
-                x_train, x_test, y_train, y_test = train_test_split(x_data,
-                        y_feature_data, train_size=self.train_proportion)
+                x_train, x_test, y_train, y_test = train_test_split(
+                    x_data, y_feature_data, train_size=self.train_proportion
+                )
             except Exception as e:
-                error_msg = "Error completing the train/test split. Please check your input and target features are correct." + str(e)
+                error_msg = (
+                    "Error completing the train/test split. Please check your input and target features are correct."
+                    + str(e)
+                )
                 return_dict["errors"].append(error_msg)
                 return return_dict
 
@@ -292,7 +315,10 @@ class MLProject(models.Model):
             try:
                 pipe.fit(x_train, y_train)
             except Exception as e:
-                error_msg = "Error fitting the pipeline. Please check your input and your workflow" + str(e)
+                error_msg = (
+                    "Error fitting the pipeline. Please check your input and your workflow"
+                    + str(e)
+                )
                 return_dict["errors"].append(error_msg)
                 return return_dict
 
@@ -301,7 +327,10 @@ class MLProject(models.Model):
                 score = pipe.score(x_test, y_test)
 
             except Exception as e:
-                error_msg = "Error scoring the pipeline. This can often happen if the model you're using does not support this function" + str(e)
+                error_msg = (
+                    "Error scoring the pipeline. This can often happen if the model you're using does not support this function"
+                    + str(e)
+                )
                 return_dict["errors"].append(error_msg)
                 return return_dict
 
@@ -310,11 +339,16 @@ class MLProject(models.Model):
                 # checks if the last object in the pipeline was a tpot object to
                 # see whether to expand the fitted pipeline and save it
                 last_obj = pipe.steps[-1][1]
-                if isinstance(last_obj, TPOTClassifier) or isinstance(last_obj, TPOTRegressor):
-                    new_steps = pipe.steps[:-1] + last_obj.fitted_pipeline_.steps 
+                if isinstance(last_obj, TPOTClassifier) or isinstance(
+                    last_obj, TPOTRegressor
+                ):
+                    new_steps = pipe.steps[:-1] + last_obj.fitted_pipeline_.steps
                     pipe = Pipeline(steps=new_steps)
             except Exception as e:
-                error_msg = "This is most likely an issue with a custom algorithm you forgot to make picklable or that you deleted the ml/ml_models directory" + str(e)
+                error_msg = (
+                    "This is most likely an issue with a custom algorithm you forgot to make picklable or that you deleted the ml/ml_models directory"
+                    + str(e)
+                )
                 return_dict["errors"].append(error_msg)
                 return return_dict
 
@@ -322,15 +356,25 @@ class MLProject(models.Model):
             try:
                 # gets train length
                 end_time = time.time()
-                time_difference = str(dt.timedelta(seconds=round(end_time - start_time)))
+                time_difference = str(
+                    dt.timedelta(seconds=round(end_time - start_time))
+                )
 
                 # the pipe with newlines removed so it isnt a bad header
                 formatted_pipe = str(pipe).replace("\n", "")
 
-                feature_results = {"pipeline":pipe, "formatted_pipeline": formatted_pipe, "score": score, "train_time": time_difference}
+                feature_results = {
+                    "pipeline": pipe,
+                    "formatted_pipeline": formatted_pipe,
+                    "score": score,
+                    "train_time": time_difference,
+                }
                 return_dict["pipelines"][y_feature] = feature_results
             except Exception as e:
-                error_msg = "Error saving the pipeline internally. If this happened, there's probably something pretty wrong!" + str(e)
+                error_msg = (
+                    "Error saving the pipeline internally. If this happened, there's probably something pretty wrong!"
+                    + str(e)
+                )
                 return_dict["errors"].append(error_msg)
                 return return_dict
 
@@ -339,7 +383,10 @@ class MLProject(models.Model):
         self.train_results = return_dict["pipelines"]
 
         # dumps the model
-        joblib.dump(return_dict["pipelines"], os.path.join(self.output_dir, str(dt.datetime.now())))
+        joblib.dump(
+            return_dict["pipelines"],
+            os.path.join(self.output_dir, str(dt.datetime.now())),
+        )
         return return_dict, self
 
     @property
@@ -348,8 +395,7 @@ class MLProject(models.Model):
             return dt.datetime.strptime(item, "%Y-%m-%d %H:%M:%S.%f")
 
         # lists all ml algorithms and gets most recent
-        latest_algorithm = max(os.listdir(cls.output_dir),
-                               key=load_str_as_datetime)
+        latest_algorithm = max(os.listdir(cls.output_dir), key=load_str_as_datetime)
 
         # loads pipeline
         pipe = joblib.load(os.path.join(cls.output_dir, latest_algorithm))
@@ -357,7 +403,7 @@ class MLProject(models.Model):
         return pipe
 
     def predict(self):
-        return_dict = {"errors":[], "warnings":[], "predictions":None}
+        return_dict = {"errors": [], "warnings": [], "predictions": None}
 
         # checks that the model is fitted
         if not self.is_fitted:
@@ -369,7 +415,10 @@ class MLProject(models.Model):
         try:
             input_data = self.predict_df_as_csv
         except Exception as e:
-            error_msg = "Unable to load data. This is probably because of improperly formatted data" + str(e)
+            error_msg = (
+                "Unable to load data. This is probably because of improperly formatted data"
+                + str(e)
+            )
             return_dict["errors"].append(error_msg)
             return return_dict
 
@@ -385,7 +434,10 @@ class MLProject(models.Model):
                 predicted_vals.name = y_feature
                 return_df = pd.concat([return_df, predicted_vals], axis=1)
             except Exception as e:
-                error_msg = "Unable to predict on the new data. Is it in the same format that you used to train this model?" + str(e)
+                error_msg = (
+                    "Unable to predict on the new data. Is it in the same format that you used to train this model?"
+                    + str(e)
+                )
                 return_dict["errors"].append(error_msg)
                 return return_dict
             print(return_df)

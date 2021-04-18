@@ -9,7 +9,7 @@ from wagtail_easyai.blocks.ml_blocks import MLProjectChooserBlock
 class BaseChartBlock(blocks.StructBlock):
     title = blocks.CharBlock(max_length=200)
     ml_project = MLProjectChooserBlock()
-    
+
 
 class BoxPlotChartBlock(BaseChartBlock):
     pass
