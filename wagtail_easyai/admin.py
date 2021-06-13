@@ -13,6 +13,8 @@ from wagtail.contrib.modeladmin.helpers import ButtonHelper, AdminURLHelper
 from wagtail.contrib.modeladmin.views import InstanceSpecificView
 
 from wagtail_easyai.models.project import MLProject
+from wagtail_easyai.models.data.csv import CSVData
+
 
 
 class MLProjectButtonHelper(ButtonHelper):
@@ -157,6 +159,25 @@ class MLProjectAdmin(ModelAdmin):
         kwargs = {"model_admin": self, "instance_pk": instance_pk}
         view_class = self.train_view_class
         return view_class.as_view(**kwargs)(request)
+
+
+class CSVDataAdmin(ModelAdmin):
+    menu_label = "CSV Data"
+    menu_icon = "pilcrow"
+
+    model = CSVData
+
+    list_display = ("title",)
+    list_filter = ("title",)
+    search_fields = ("title",) 
+
+
+class MLDataGroup(ModelAdminGroup):
+    menu_label = "ML Data"
+    menu_icon = "folder-open-inverse"
+    menu_order = 100
+
+    items = (CSVDataAdmin,)
 
 
 class MLGroup(ModelAdminGroup):

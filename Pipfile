@@ -9,6 +9,10 @@ numpy = "*"
 pandas = "*"
 wagtail = "*"
 wagtail-generic-chooser = "*"
+devpi-server = "*"
+devpi-client = "*"
+petl = "*"
+python-magic = "*"
 
 [dev-packages]
 
