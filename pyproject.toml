@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "wagtail-easyai"
+version = "0.1.0"
+description = "A code-free machine learning application with support for web deployment and autoML"
+authors = ["Finn Burmeister-Morton"]
+license = "GPL-3.0-or-later"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
